@@ -42,9 +42,12 @@ void setup() {
 
 // Read data from radio
 void readData() {
-  byte *dataPtr = (byte *) &data;
+  // Write read data onto temporary buffer
+  MoveData tempData;
+  byte *dataPtr = (byte *) &tempData;
   
   // Read movement data byte by byte from radio
+  // Populate into temp buffer
   unsigned int bytesRead = 0;
   while (HC12.available() && bytesRead < sizeof(MoveData)) {
     dataPtr[bytesRead] = HC12.read();
@@ -52,7 +55,9 @@ void readData() {
   }
 
   // Set last received time if success
+  // Also copy data from buffer to stored movement data
   if (bytesRead == sizeof(MoveData)) {
+    memcpy((byte *) &data, dataPtr, sizeof(MoveData));
     lastRecvTime = millis();
   }
 }
@@ -65,12 +70,14 @@ void loop() {
   if (now - lastRecvTime > 1000) {
     resetData();
   }
-
+  
   // Print current movement data
-  Serial.println("Throttle: " + String(data.throttle));
+//  Serial.println("Throttle: " + String(data.throttle));
   Serial.println("Yaw: " + String(data.yaw));
-  Serial.println("Pitch: " + String(data.pitch));
-  Serial.println("Roll: " + String(data.roll));
-  Serial.println("Aux1: " + String(data.AUX1));
-  Serial.println("Aux2: " + String(data.AUX2));
+//  Serial.println("Pitch: " + String(data.pitch));
+//  Serial.println("Roll: " + String(data.roll));
+//  Serial.println("Aux1: " + String(data.AUX1));
+//  Serial.println("Aux2: " + String(data.AUX2));
+
+  delay(45);
 }

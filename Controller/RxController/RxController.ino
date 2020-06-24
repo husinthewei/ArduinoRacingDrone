@@ -50,13 +50,14 @@ void loop() {
   WiiController.CollectData();
 
   // Read trigger buttons to increase or decrease throttle
+  int throttle = data.throttle;
   if (WiiController.lzPressed()) {
-    data.throttle += 51;
+    throttle -= 51;
   } 
   if (WiiController.rzPressed()) {
-    data.throttle -= 51;
+    throttle += 51;
   }
-  data.throttle = constrain(data.throttle, 0, 255);
+  data.throttle = constrain(throttle, 0, 255);
 
   // Read joystick values and update current movement data
   data.yaw = constrain(WiiController.leftStickX(), 0, 255);
@@ -69,5 +70,5 @@ void loop() {
 
   // Send data and wait some time
   HC12.write((byte*) &data, sizeof(MoveData));
-  delay(25);
+  delay(45);
 }
