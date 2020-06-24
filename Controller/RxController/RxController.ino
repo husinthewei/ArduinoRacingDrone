@@ -37,7 +37,7 @@ void setup() {
   WiiController.begin(NEUTRAL, OFF);
 
   // Init radio receiver
-  HC12.begin(38400);
+  HC12.begin(9600);
 
   // Begin serial comm
   Serial.begin(9600);
