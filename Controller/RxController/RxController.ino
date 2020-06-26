@@ -11,6 +11,7 @@ struct MoveData {
   byte roll;
   byte AUX1;
   byte AUX2;
+  byte TERM;
 };
 
 // Create instance of radio transceiver
@@ -30,6 +31,7 @@ void resetData() {
   data.roll = 127;
   data.AUX1 = 0;
   data.AUX2 = 0;
+  data.TERM = 2;
 }
 
 void setup() {
@@ -52,10 +54,10 @@ void loop() {
   // Read trigger buttons to increase or decrease throttle
   int throttle = data.throttle;
   if (WiiController.lzPressed()) {
-    throttle -= 51;
+    throttle -= 15;
   } 
   if (WiiController.rzPressed()) {
-    throttle += 51;
+    throttle += 15;
   }
   data.throttle = constrain(throttle, 0, 255);
 

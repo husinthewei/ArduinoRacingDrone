@@ -72,6 +72,8 @@ void resetData() {
 }
 
 void setup() {
+  Serial.begin(9600);
+  
   // Init radio receiver
   HC12.begin(9600);
 
@@ -96,12 +98,30 @@ void readData() {
     bytesRead++;
   }
 
+  // Continuously read until termination value
+  // in order to keep sync
+  while (HC12.available()) {
+    if (HC12.read() == 2) {
+      break;
+    }
+    bytesRead++;
+  }
+
   // Set last received time if success
   // Also copy data from buffer to stored movement data
   if (bytesRead == sizeof(MoveData)) {
     memcpy((byte *) &data, dataPtr, sizeof(MoveData));
     lastRecvTime = millis();
   }
+}
+
+void printData() {
+  Serial.print("Throttle: "); Serial.print(data.throttle);  Serial.print("    ");
+  Serial.print("Yaw: ");      Serial.print(data.yaw);       Serial.print("    ");
+  Serial.print("Pitch: ");    Serial.print(data.pitch);     Serial.print("    ");
+  Serial.print("Roll: ");     Serial.print(data.roll);      Serial.print("    ");
+  Serial.print("Aux1: ");     Serial.print(data.AUX1);      Serial.print("    ");
+  Serial.print("Aux2: ");     Serial.print(data.AUX2);      Serial.print("\n");
 }
 
 void loop() {
@@ -112,9 +132,9 @@ void loop() {
   if (now - lastRecvTime > 1000) {
     resetData();
   }
-
+  
   updatePPMVals();
-  delay(40);
+  delay(45);
 }
 
 /**************************************************/
