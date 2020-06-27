@@ -99,7 +99,7 @@
       //#define FREEIMUv035_BMP // FreeIMU v0.3.5_BMP
       //#define FREEIMUv04      // FreeIMU v0.4 with MPU6050, HMC5883L, MS561101BA                  <- confirmed by Alex
       //#define FREEIMUv043     // same as FREEIMUv04 with final MPU6050 (with the right ACC scale)
-      //#define NANOWII         // the smallest multiwii FC based on MPU6050 + pro micro based proc <- confirmed by Alex
+      #define NANOWII         // the smallest multiwii FC based on MPU6050 + pro micro based proc <- confirmed by Alex
       //#define PIPO            // 9DOF board from erazz
       //#define QUADRINO        // full FC board 9DOF+baro board from witespy  with BMP085 baro     <- confirmed by Alex
       //#define QUADRINO_ZOOM   // full FC board 9DOF+baro board from witespy  second edition
@@ -133,7 +133,7 @@
       //#define GY_85           // Chinese 9 DOF with  ITG3205 ADXL345 HMC5883L LLC
       //#define GY_86           // Chinese 10 DOF with  MPU6050 HMC5883L MS5611, LLC
       //#define GY_88 // Chinese 10 DOF with MPU6050 HMC5883L BMP085, LLC
-      #define GY_521          // Chinese 6  DOF with  MPU6050, LLC
+      //#define GY_521          // Chinese 6  DOF with  MPU6050, LLC
       //#define INNOVWORKS_10DOF // with ITG3200, BMA180, HMC5883, BMP085 available here http://www.diymulticopter.com
       //#define INNOVWORKS_6DOF // with ITG3200, BMA180 available here http://www.diymulticopter.com
       //#define MultiWiiMega    // MEGA + MPU6050+HMC5883L+MS5611 available here http://www.diymulticopter.com
@@ -720,7 +720,7 @@ At this moment you can use this function only with WinGUI 2.3 release. MultiWiiC
 #define NAV_SET_TAKEOFF_HEADING    1    //(**)
 
 /* Get your magnetic declination from here : http://magnetic-declination.com/
-Convert the degree+minutes into decimal degree by ==> degree+minutes*(1/60)
+Convert the degree+minutes into decimal degree by ==> degree+utes*(1/60)
 Note the sign on declination it could be negative or positive (WEST or EAST)
 Also note, that maqgnetic declination changes with time, so recheck your value every 3-6 months */
 #define MAG_DECLINATION  4.02f   //(**)
@@ -728,7 +728,7 @@ Also note, that maqgnetic declination changes with time, so recheck your value e
 // Adds a forward predictive filterig to compensate gps lag. Code based on Jason Short's lead filter implementation
 #define GPS_LEAD_FILTER               //(**)
 
-// add a 5 element moving average filter to GPS coordinates, helps eliminate gps noise but adds latency comment out to disable
+// add a 5 element moving average filter to GPS coordinates, helps eliate gps noise but adds latency comment out to disable
 // use it with NMEA gps only 
 //#define GPS_FILTERING                 //(**)
 

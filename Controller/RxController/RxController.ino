@@ -1,21 +1,18 @@
-#include <SoftwareSerial.h>
 #include <Wire.h>
 
 #include "WiiClassicControl.h"
 
 // 6 byte struct containing movement info
 struct MoveData {
+  byte start;
   byte throttle;
   byte yaw;
   byte pitch;
   byte roll;
   byte AUX1;
   byte AUX2;
-  byte TERM;
+  byte term;
 };
-
-// Create instance of radio transceiver
-SoftwareSerial HC12(10, 11);
 
 // Create instance of wii classic controller
 WiiClassicControl WiiController;
@@ -24,24 +21,22 @@ WiiClassicControl WiiController;
 MoveData data;
 
 // Reset movement data to defaults
-void resetData() {   
+void resetData() {
+  data.start = 3;
   data.throttle = 0;
   data.yaw = 127;
   data.pitch = 127;
   data.roll = 127;
   data.AUX1 = 0;
   data.AUX2 = 0;
-  data.TERM = 2;
+  data.term = 2;
 }
 
 void setup() {
   // Init wii classic controller
   WiiController.begin(NEUTRAL, OFF);
 
-  // Init radio receiver
-  HC12.begin(9600);
-
-  // Begin serial comm
+  // Begin serial comm (to HC-12 radio)
   Serial.begin(9600);
 
   // Set movement data to default vals
@@ -71,6 +66,6 @@ void loop() {
   data.AUX2 = WiiController.rightShoulderPressed();
 
   // Send data and wait some time
-  HC12.write((byte*) &data, sizeof(MoveData));
+  Serial.write((byte*) &data, sizeof(MoveData));
   delay(45);
 }
